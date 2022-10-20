@@ -30,7 +30,7 @@ const routes = [
 const BASE_PATH = "/desafio-m5";
 
 function isGithubPages() {
-  return location.host.includes("github.io");
+  return location.host.includes("ignaciobarborini.github.io");
 }
 
 export function initRouter(container: Element) {
@@ -52,12 +52,12 @@ export function initRouter(container: Element) {
       }
     }
   }
-  if (location.pathname == "/") {
-    goTo("/welcome");
-  }
-  if (location.pathname == "/desafio-m5") {
+  if (location.pathname == "/" || location.pathname == "/desafio-m5/") {
     goTo("/welcome");
   } else {
     handleRoute(location.pathname);
   }
+  window.onpopstate = function () {
+    handleRoute(location.pathname);
+  };
 }

@@ -17,22 +17,49 @@ export const state = {
     callbacks: [],
   },
   init() {
-    const localData = localStorage.getItem("history-saved") as any;
-    this.getState().history = JSON.parse(localData);
+    const localData: any = localStorage.getItem("history-saved");
+    this.data.history = JSON.parse(localData);
+  },
+
+  setSate(newState) {
+    this.data = newState;
+  },
+
+  getState() {
+    return this.data;
   },
 
   pushToHistory(game: Game) {
     const currentState = this.getState();
+    const myPlay = currentState.history.vos;
+    const computerPlay = currentState.history.maquina;
     const result = this.whoWins(game.computerPlay, game.myPlay);
     if (result == "win") {
-      currentState.history.vos++;
+      this.setSate({
+        ...currentState,
+        history: {
+          vos: myPlay + 1,
+          maquina: computerPlay,
+        },
+      });
     }
     if (result == "lose") {
-      currentState.history.maquina++;
+      this.setSate({
+        ...currentState,
+        history: {
+          vos: myPlay,
+          maquina: computerPlay + 1,
+        },
+      });
     }
     if (result == "empate") {
     }
-    localStorage.setItem("history-saved", JSON.stringify(currentState.history));
+    this.saveHistory();
+  },
+
+  saveHistory() {
+    const currentState = this.getState().history;
+    localStorage.setItem("history-saved", JSON.stringify(currentState));
   },
 
   setMove(move: Play) {
@@ -45,10 +72,6 @@ export const state = {
     const currentState = this.getState();
     const move = this.randomNumber(0, 3);
     currentState.currentGame.computerPlay = moves[move];
-  },
-
-  getState() {
-    return this.data;
   },
 
   randomNumber(min: number, max: number) {
