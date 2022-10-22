@@ -6,6 +6,11 @@ import "./components/greenStar";
 import "./components/redStar";
 import { initRouter } from "./router";
 import { state } from "./state";
-const container = document.querySelector(".container") as Element;
-state.init();
-initRouter(container);
+
+function main() {
+  const container = document.querySelector(".container") as Element;
+  state.init();
+  initRouter(container);
+}
+
+main();

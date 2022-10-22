@@ -18,6 +18,9 @@ export const state = {
   },
   init() {
     const localData: any = localStorage.getItem("history-saved");
+    if (!localData) {
+      return console.log("Init State");
+    }
     this.data.history = JSON.parse(localData);
   },
 
